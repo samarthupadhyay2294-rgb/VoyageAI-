@@ -18,25 +18,26 @@ services:
       - key: OPENROUTESERVICE_API_KEY
         value: "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6ImE0M2IwMjVlY2QwNzRjNTQ5OTRjNjZmMzRjOWJmZGUyIiwiaCI6Im11cm11cjY0In0="
       - key: GEMINI_API_KEY
-        sync: false
+        sync:  AQ.Ab8RN6K5PNRRC4aQdOQxal_kxNI1BIwqiI3a7CLvTf-8OSTCxw
       - key: OPENWEATHER_API_KEY
-        sync: false
+        sync: 9ef58e936c3f6629938fbb42365afd7
       - key: FOURSQUARE_API_KEY
-        sync: false
+        sync:  5JYAWJTUGZILMHOWKKJ0NGAOVCEIPMPVBY1FNFTJV0DLHGYR
       - key: UNSPLASH_ACCESS_KEY
-        sync: false
+        sync: R01r8HGle5zXsS7BmlBF1YBXmLVeV7av5vRNW3seby8
       - key: EXCHANGERATE_API_KEY
-        sync: false
+        sync: f23ddafa4cd752e293155dd8
       - key: TRAVELPAYOUTS_API_TOKEN
-        sync: false
+        sync:  877ff3e8ce7ebad0f353b27e4778a3af
       - key: JWT_SECRET_KEY
-        generateValue: true
+        generateValue: a6fad8097be2fb32e9d501030e36c16d9912a9a70cd2e530b5e167995dd1a18c
+
       - key: SUPABASE_URL
-        sync: false
+        sync: https://iswmdqrggxtuovweqonv.supabase.co
       - key: SUPABASE_ANON_KEY
-        sync: false
+        sync: sb_publishable_L8GZVe6EAjpHd3JsOQcDiQ_6iAmMgeO
       - key: SUPABASE_SERVICE_ROLE_KEY
-        sync: false
+        sync: sb_secret_ARWWPzuEIfE14egPRZJU6Q_l1P_rQGF
 
   # -------------------------------------------------------------
   # 2. VoyageAI Frontend SPA Static Site
