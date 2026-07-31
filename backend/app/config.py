@@ -10,68 +10,23 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     ENVIRONMENT: str = "development"
 
-  # API Keys
-OPENROUTESERVICE_API_KEY: str = os.getenv(
-    "OPENROUTESERVICE_API_KEY",
-    "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6ImE0M2IwMjVlY2QwNzRjNTQ5OTRjNjZmMzRjOWJmZGUyIiwiaCI6Im11cm11cjY0In0="
-)
+    # API keys are supplied by the deployment environment.
+    OPENROUTESERVICE_API_KEY: str = os.getenv("OPENROUTESERVICE_API_KEY", "")
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
+    OPENWEATHER_API_KEY: str = os.getenv("OPENWEATHER_API_KEY", "")
+    FOURSQUARE_API_KEY: str = os.getenv("FOURSQUARE_API_KEY", "")
+    UNSPLASH_ACCESS_KEY: str = os.getenv("UNSPLASH_ACCESS_KEY", "")
+    EXCHANGERATE_API_KEY: str = os.getenv("EXCHANGERATE_API_KEY", "")
+    TRAVELPAYOUTS_API_TOKEN: str = os.getenv("TRAVELPAYOUTS_API_TOKEN", "")
+    TRAVELPAYOUTS_MARKER: str = os.getenv("TRAVELPAYOUTS_MARKER", "voyageai")
 
-GEMINI_API_KEY: str = os.getenv(
-    "GEMINI_API_KEY",
-    "AQ.Ab8RN6K5PNRRC4aQdOQxal_kxNI1BIwqiI3a7CLvTf-8OSTCxw"
-)
+    # Supabase
+    SUPABASE_URL: str = os.getenv("SUPABASE_URL", "")
+    SUPABASE_ANON_KEY: str = os.getenv("SUPABASE_ANON_KEY", "")
+    SUPABASE_SERVICE_ROLE_KEY: str = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 
-OPENWEATHER_API_KEY: str = os.getenv(
-    "OPENWEATHER_API_KEY",
-    "9ef58e936c3f6629938fbb42365afd7d"
-)
-
-FOURSQUARE_API_KEY: str = os.getenv(
-    "FOURSQUARE_API_KEY",
-    "5JYAWJTUGZILMHOWKKJ0NGAOVCEIPMPVBY1FNFTJV0DLHGYR"
-)
-
-UNSPLASH_ACCESS_KEY: str = os.getenv(
-    "UNSPLASH_ACCESS_KEY",
-    "R01r8HGle5zXsS7BmlBF1YBXmLVeV7av5vRNW3seby8"
-)
-
-EXCHANGERATE_API_KEY: str = os.getenv(
-    "EXCHANGERATE_API_KEY",
-    "f23ddafa4cd752e293155dd8"
-)
-
-TRAVELPAYOUTS_API_TOKEN: str = os.getenv(
-    "TRAVELPAYOUTS_API_TOKEN",
-    "877ff3e8ce7ebad0f353b27e4778a3af"
-)
-
-TRAVELPAYOUTS_MARKER: str = os.getenv(
-    "TRAVELPAYOUTS_MARKER",
-    "757887"
-)
-
-# Supabase
-SUPABASE_URL: str = os.getenv(
-    "SUPABASE_URL",
-    "https://iswmdqrggxtuovweqonv.supabase.co"
-)
-
-SUPABASE_ANON_KEY: str = os.getenv(
-    "SUPABASE_ANON_KEY",
-    "YOUR_SUPABASE_ANON_KEY"
-)
-
-SUPABASE_SERVICE_ROLE_KEY: str = os.getenv(
-    "SUPABASE_SERVICE_ROLE_KEY",
-    "YOUR_SUPABASE_SERVICE_ROLE_KEY"
-)
-
-# Security
-JWT_SECRET_KEY: str = os.getenv(
-    "JWT_SECRET_KEY",
-    "a6fad8097be2fb32e9d501030e36c16d9912a9a70cd2e530b5e167995dd1a18c"
-)
+    # Security
+    JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", "")
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRATION_MINUTES: int = 60 * 24 * 7  # 7 days
 
