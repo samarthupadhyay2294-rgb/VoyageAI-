@@ -11,6 +11,9 @@ services:
     buildCommand: "pip install --upgrade pip && pip install -r requirements.txt"
     startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     envVars:
+      # Pillow 10.2 and several pinned dependencies do not support Python 3.14.
+      - key: PYTHON_VERSION
+        value: 3.12.10
       - key: ENVIRONMENT
         value: production
       - key: DEBUG
