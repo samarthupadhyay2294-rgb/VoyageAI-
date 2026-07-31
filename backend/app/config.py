@@ -24,6 +24,7 @@ class Settings(BaseSettings):
     SUPABASE_URL: str = os.getenv("SUPABASE_URL", "")
     SUPABASE_ANON_KEY: str = os.getenv("SUPABASE_ANON_KEY", "")
     SUPABASE_SERVICE_ROLE_KEY: str = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "")
 
     # Security
     JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", "")
