@@ -35,6 +35,8 @@ class Settings(BaseSettings):
     CACHE_TTL_SECONDS: int = 3600  # 1 hour
 
     # CORS
+    # Set this as a JSON list in production, for example:
+    # ALLOWED_ORIGINS=["https://voyageai-frontend.onrender.com"]
     ALLOWED_ORIGINS: List[str] = [
         "http://localhost:3000",
         "http://localhost:5173",

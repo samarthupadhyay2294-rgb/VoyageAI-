@@ -15,6 +15,8 @@ services:
         value: production
       - key: DEBUG
         value: "false"
+      - key: ALLOWED_ORIGINS
+        value: '["https://voyageai-frontend.onrender.com"]'
       - key: OPENROUTESERVICE_API_KEY
         sync: false
       - key: GEMINI_API_KEY
@@ -60,3 +62,7 @@ services:
           type: web
           name: voyageai-backend
           property: url
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
