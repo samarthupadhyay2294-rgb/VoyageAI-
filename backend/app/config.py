@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = "development"
 
     # API Keys
-    OPENROUTESERVICE_API_KEY: str = "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6ImE0M2IwMjVlY2QwNzRjNTQ5OTRjNjZmMzRjOWJmZGUyIiwiaCI6Im11cm11cjY0In0="
+    OPENROUTESERVICE_API_KEY: str = os.getenv("OPENROUTESERVICE_API_KEY", "")
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "demo_gemini_key")
     OPENWEATHER_API_KEY: str = os.getenv("OPENWEATHER_API_KEY", "demo_weather_key")
     FOURSQUARE_API_KEY: str = os.getenv("FOURSQUARE_API_KEY", "demo_foursquare_key")
