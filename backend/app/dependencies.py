@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorityCredentials
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from typing import Optional
 
 from app.config import settings
@@ -10,7 +10,7 @@ security = HTTPBearer()
 
 
 async def get_current_user(
-    credentials: HTTPAuthorityCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> str:
     """Get current user ID from JWT token."""
     token = credentials.credentials
@@ -24,7 +24,7 @@ async def get_current_user(
 
 
 async def optional_get_current_user(
-    credentials: Optional[HTTPAuthorityCredentials] = Depends(HTTPBearer(auto_error=False)),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False)),
 ) -> Optional[str]:
     """Optionally get current user ID from JWT token."""
     if not credentials:
