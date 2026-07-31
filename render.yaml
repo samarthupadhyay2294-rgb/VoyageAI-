@@ -31,6 +31,8 @@ services:
         sync: false
       - key: TRAVELPAYOUTS_API_TOKEN
         sync: false
+      - key: TRAVELPAYOUTS_MARKER
+        sync: false
       - key: JWT_SECRET_KEY
         generateValue: true
 
