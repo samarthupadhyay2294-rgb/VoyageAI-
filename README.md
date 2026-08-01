@@ -1,8 +1,22 @@
 # VoyageAI – Intelligent AI Travel Planner
 
-An enterprise-grade, production-ready AI-powered travel planning platform that automatically creates complete travel plans using multiple AI agents.
+<div align="center">
 
-## 🚀 Features
+![VoyageAI](https://img.shields.io/badge/VoyageAI-AI%20Travel%20Planner-blue?style=for-the-badge)
+![React](https://img.shields.io/badge/React-19.0.0-61DAFB?style=for-the-badge&logo=react)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688?style=for-the-badge&logo=fastapi)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+
+**An enterprise-grade, production-ready AI-powered travel planning platform that automatically creates complete travel plans using multiple AI agents.**
+
+[🌐 Live Demo](https://voyageai-froentend.onrender.com) • [📖 Documentation](#-documentation) • [🚀 Getting Started](#-setup) • [🤝 Contributing](#-contributing)
+
+</div>
+
+---
+
+## ✨ Features
 
 - **AI-Powered Trip Planning**: Automatically generates complete travel itineraries using Google Gemini AI
 - **Multi-Agent Architecture**: 11 specialized AI agents working together
@@ -366,7 +380,15 @@ The application uses 11 specialized AI agents:
 - `POST /api/trips/{id}/share` - Share a trip
 - `GET /api/trips/{id}/pdf` - Download trip as PDF
 
-## 🚢 Deployment to Render
+## 🚢 Deployment
+
+### Live Deployment
+
+- **Frontend**: [https://voyageai-froentend.onrender.com](https://voyageai-froentend.onrender.com)
+- **Backend API**: [https://voyageai-backend-kym8.onrender.com](https://voyageai-backend-kym8.onrender.com)
+- **API Documentation**: [https://voyageai-backend-kym8.onrender.com/docs](https://voyageai-backend-kym8.onrender.com/docs)
+
+### Deploy to Render
 
 1. Push code to GitHub
 2. Create a new Render service
