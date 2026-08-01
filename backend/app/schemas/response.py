@@ -39,3 +39,9 @@ class PaginatedResponse(BaseModel, Generic[T]):
     total_pages: int
     has_next: bool
     has_previous: bool
+
+
+class APIResponse(BaseModel, Generic[T]):
+    success: bool = True
+    data: T
+    message: Optional[str] = None
