@@ -2,6 +2,7 @@ services:
   - type: web
     name: voyageai-frontend
     env: static
+    rootDir: frontend
     buildCommand: npm run build
     publishDir: dist
     envVars:
