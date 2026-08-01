@@ -20,3 +20,4 @@ python-dotenv==1.0.0
 structlog==24.1.0
 tenacity==8.2.3
 orjson==3.9.12
+email-validator==2.1.0
