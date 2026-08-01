@@ -1,73 +1,13 @@
 services:
-  # -------------------------------------------------------------
-  # 1. VoyageAI FastAPI Backend Web Service
-  # -------------------------------------------------------------
-  - type: web
-    name: voyageai-backend
-    runtime: python
-    region: oregon
-    plan: free
-    rootDir: backend
-    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt"
-    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
-    envVars:
-      # Pillow 10.2 and several pinned dependencies do not support Python 3.14.
-      - key: PYTHON_VERSION
-        value: 3.12.10
-      - key: ENVIRONMENT
-        value: production
-      - key: DEBUG
-        value: "false"
-      - key: ALLOWED_ORIGINS
-        value: '["https://voyageai-frontend.onrender.com"]'
-      - key: OPENROUTESERVICE_API_KEY
-        sync: false
-      - key: GEMINI_API_KEY
-        sync: false
-      - key: OPENWEATHER_API_KEY
-        sync: false
-      - key: FOURSQUARE_API_KEY
-        sync: false
-      - key: UNSPLASH_ACCESS_KEY
-        sync: false
-      - key: EXCHANGERATE_API_KEY
-        sync: false
-      - key: TRAVELPAYOUTS_API_TOKEN
-        sync: false
-      - key: TRAVELPAYOUTS_MARKER
-        sync: false
-      - key: JWT_SECRET_KEY
-        generateValue: true
-
-      - key: SUPABASE_URL
-        sync: false
-      - key: SUPABASE_ANON_KEY
-        sync: false
-      - key: SUPABASE_SERVICE_ROLE_KEY
-        sync: false
-
-  # -------------------------------------------------------------
-  # 2. VoyageAI Frontend SPA Static Site
-  # -------------------------------------------------------------
   - type: web
     name: voyageai-frontend
-    runtime: static
-    region: oregon
-    plan: free
-    rootDir: frontend
-    buildCommand: "npm install && npm run build"
-    staticPublishPath: dist
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
+    env: static
+    buildCommand: npm run build
+    publishDir: dist
     envVars:
-      - key: VITE_API_URL
-        fromService:
-          type: web
-          name: voyageai-backend
-          property: url
       - key: VITE_SUPABASE_URL
         sync: false
       - key: VITE_SUPABASE_ANON_KEY
         sync: false
+      - key: VITE_API_URL
+        value: https://voyageai-backend-kym8.onrender.com
