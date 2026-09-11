@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: voyageai-frontend
+    env: static
+    buildCommand: npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
+      - key: VITE_API_URL
+        value: https://voyageai-backend-kym8.onrender.com
