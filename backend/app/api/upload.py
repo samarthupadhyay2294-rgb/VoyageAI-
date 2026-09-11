@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Request
 from app.dependencies import get_current_user
 from app.schemas.response import SuccessResponse
 from app.config import settings
 from app.logging import logger
 from supabase import Client
 from app.core.auth import supabase
+from app.core.limiter import limiter
 import uuid
 import os
 
@@ -19,8 +20,10 @@ ALLOWED_MIME_TYPES = {
 }
 
 
-@router.post("/upload", response_model=SuccessResponse[dict])
+@router.post("", response_model=SuccessResponse[dict])
+@limiter.limit("10/minute")
 async def upload_file(
+    request: Request,
     file: UploadFile = File(...),
     current_user_id: str = Depends(get_current_user),
 ):

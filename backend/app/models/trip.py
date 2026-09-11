@@ -46,6 +46,7 @@ class Trip(TripBase):
 
 
 class TripPlanBase(BaseModel):
+    location_intelligence: Optional[dict] = None
     weather: Optional[dict] = None
     flights: Optional[dict] = None
     hotels: Optional[dict] = None
@@ -53,6 +54,7 @@ class TripPlanBase(BaseModel):
     restaurants: Optional[dict] = None
     budget_breakdown: Optional[dict] = None
     hero_image: Optional[str] = None
+    gallery: Optional[list] = None
     itinerary: Optional[dict] = None
     ai_summary: Optional[str] = None
 

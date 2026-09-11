@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { tripsApi } from '../api/trips'
+import { Trip } from '../api/types'
 import toast from 'react-hot-toast'
+import axios from 'axios'
 
 export function useTrips(page = 1, pageSize = 10) {
   return useQuery({
@@ -26,8 +28,13 @@ export function useCreateTrip() {
       queryClient.invalidateQueries({ queryKey: ['trips'] })
       toast.success('Trip created successfully')
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.error || 'Failed to create trip')
+    onError: (error: unknown) => {
+      const msg = axios.isAxiosError(error)
+        ? ((error.response?.data as { error?: string })?.error ?? 'Failed to create trip')
+        : error instanceof Error
+          ? error.message
+          : 'Failed to create trip'
+      toast.error(msg)
     },
   })
 }
@@ -36,14 +43,19 @@ export function useUpdateTrip() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: any }) => tripsApi.updateTrip(id, data),
+    mutationFn: ({ id, data }: { id: string; data: Partial<Trip> }) => tripsApi.updateTrip(id, data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['trips'] })
       queryClient.invalidateQueries({ queryKey: ['trip', variables.id] })
       toast.success('Trip updated successfully')
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.error || 'Failed to update trip')
+    onError: (error: unknown) => {
+      const msg = axios.isAxiosError(error)
+        ? ((error.response?.data as { error?: string })?.error ?? 'Failed to update trip')
+        : error instanceof Error
+          ? error.message
+          : 'Failed to update trip'
+      toast.error(msg)
     },
   })
 }
@@ -57,8 +69,13 @@ export function useDeleteTrip() {
       queryClient.invalidateQueries({ queryKey: ['trips'] })
       toast.success('Trip deleted successfully')
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.error || 'Failed to delete trip')
+    onError: (error: unknown) => {
+      const msg = axios.isAxiosError(error)
+        ? ((error.response?.data as { error?: string })?.error ?? 'Failed to delete trip')
+        : error instanceof Error
+          ? error.message
+          : 'Failed to delete trip'
+      toast.error(msg)
     },
   })
 }
@@ -72,21 +89,36 @@ export function useDuplicateTrip() {
       queryClient.invalidateQueries({ queryKey: ['trips'] })
       toast.success('Trip duplicated successfully')
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.error || 'Failed to duplicate trip')
+    onError: (error: unknown) => {
+      const msg = axios.isAxiosError(error)
+        ? ((error.response?.data as { error?: string })?.error ?? 'Failed to duplicate trip')
+        : error instanceof Error
+          ? error.message
+          : 'Failed to duplicate trip'
+      toast.error(msg)
     },
   })
 }
 
 export function useShareTrip() {
   return useMutation({
-    mutationFn: ({ id, email, message }: { id: string; email: string; message?: string }) =>
-      tripsApi.shareTrip(id, email, message),
+    mutationFn: async ({ id, email, message }: { id: string; email: string; message?: string }) => {
+      const res = await tripsApi.shareTrip(id, email, message)
+      if (!res.success) throw new Error(res.error || 'Failed to share trip')
+      return res
+    },
     onSuccess: () => {
       toast.success('Trip shared successfully')
     },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.error || 'Failed to share trip')
+    onError: (error: unknown) => {
+      let msg = 'Failed to share trip'
+      if (error instanceof Error) msg = error.message || msg
+      if (axios.isAxiosError(error)) {
+        const data = error.response?.data as { detail?: string; error?: string } | undefined
+        msg = data?.detail || data?.error || msg
+      }
+      toast.error(msg)
+      console.error('Share trip failed:', error)
     },
   })
 }

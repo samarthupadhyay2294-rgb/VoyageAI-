@@ -38,7 +38,7 @@ api.interceptors.response.use(
     // Enhance error object with more details
     if (error.response) {
       // Server responded with error status
-      const errorData = error.response.data as any
+      const errorData = error.response.data as { detail?: string; message?: string }
       error.message = errorData?.detail || errorData?.message || error.message || 'Request failed'
     } else if (error.request) {
       // Request made but no response received

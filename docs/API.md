@@ -19,9 +19,9 @@ Tokens are obtained via Supabase authentication and verified by the backend.
 
 ### Health
 
-#### GET /health
+#### GET /health — Liveness (root, unauthenticated)
 
-Check API health status.
+Always returns 200 if process is running.
 
 **Response:**
 ```json
@@ -29,6 +29,24 @@ Check API health status.
   "status": "healthy",
   "version": "1.0.0",
   "environment": "development",
+  "timestamp": "2026-01-01T00:00:00Z"
+}
+```
+
+#### GET /api/health — Liveness (API)
+
+Alias under `/api` prefix. Same payload as `GET /health`. Included once via `health` router at `/api/health` (`GET /api/health` and `GET /api/health/ready` are the only API health paths; `GET /api/ready` and `GET /api/health/health` must 404).
+
+**Response:** same as above.
+
+#### GET /api/health/ready — Readiness
+
+Reports 200 when Redis and Supabase are healthy, otherwise 503 with `degraded`/`not_ready`.
+
+```json
+{
+  "status": "ready | degraded | not_ready",
+  "dependencies": { "redis": "healthy | unhealthy", "supabase": "healthy | unhealthy" },
   "timestamp": "2026-01-01T00:00:00Z"
 }
 ```
@@ -286,7 +304,7 @@ Duplicate a trip.
 
 #### POST /api/trips/{id}/share
 
-Share a trip with another user.
+Share a trip with another user — **not yet implemented**.
 
 **Headers:**
 - `Authorization: Bearer <token>`
@@ -299,10 +317,10 @@ Share a trip with another user.
 }
 ```
 
-**Response:**
+**Response (501):**
 ```json
 {
-  "message": "Trip shared successfully"
+  "detail": "Trip sharing feature is not yet implemented. This feature requires email service configuration."
 }
 ```
 
@@ -353,6 +371,29 @@ Regenerate an existing trip plan.
   "message": "Trip plan regeneration started"
 }
 ```
+
+### Upload
+
+#### POST /api/upload
+
+Upload a file to Supabase Storage (requires `Supabase Storage` bucket `voyageai-uploads`).
+
+**Headers:**
+- `Authorization: Bearer <token>`
+- `Content-Type: multipart/form-data`
+
+**Form field:** `file` (max 5MB; allowed `.jpg`, `.jpeg`, `.png`, `.gif`, `.pdf`, `.doc`, `.docx`)
+
+**Success 200:**
+```json
+{
+  "success": true,
+  "data": { "filename": "x.jpg", "url": "https://...", "size": 1234, "storage_path": "uploads/uid/uuid.jpg" },
+  "message": "File uploaded successfully"
+}
+```
+
+**Errors:** `503 Storage service is not configured` if env missing, `501 Storage bucket not configured` if bucket absent, otherwise truthful `400/500`.
 
 ## Error Responses
 

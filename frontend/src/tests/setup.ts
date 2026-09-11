@@ -1,4 +1,4 @@
-import { expect, afterEach, vi } from 'vitest'
+import { afterEach, vi } from 'vitest'
 import { cleanup } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
@@ -14,14 +14,16 @@ const localStorageMock = {
   removeItem: vi.fn(),
   clear: vi.fn(),
 }
-global.localStorage = localStorageMock
+Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock })
 
 // Mock environment variables
-global.import = {
-  meta: {
-    env: {
-      VITE_API_URL: 'http://localhost:8000',
-      DEV: true,
+Object.defineProperty(globalThis, 'import', {
+  value: {
+    meta: {
+      env: {
+        VITE_API_URL: 'http://localhost:8000',
+        DEV: true,
+      },
     },
   },
-} as any
+})

@@ -247,17 +247,21 @@ frontend/
 
 #### trip_plans
 - id (UUID, primary key)
-- trip_id (UUID, references trips)
-- itinerary (jsonb)
-- weather_data (jsonb)
-- flight_options (jsonb)
-- hotel_options (jsonb)
+- trip_id (UUID, references trips, UNIQUE — prevents duplicate plans per trip)
+- location_intelligence (jsonb)
+- weather (jsonb)
+- flights (jsonb)
+- hotels (jsonb)
 - places (jsonb)
 - restaurants (jsonb)
 - budget_breakdown (jsonb)
-- images (jsonb)
+- hero_image (text)
+- gallery (jsonb)
+- itinerary (jsonb)
+- ai_summary (text)
 - created_at (timestamp)
 - updated_at (timestamp)
+- UNIQUE constraint on trip_id; apply migration `backend/migrations/001_initial_schema.sql`
 
 ### Row Level Security (RLS)
 

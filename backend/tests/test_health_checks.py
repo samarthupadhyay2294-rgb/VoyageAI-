@@ -15,6 +15,22 @@ class TestHealthChecks:
         assert "app" in data
         assert "version" in data
 
+    def test_api_health_check(self, client):
+        """GET /api/health must exist and return healthy."""
+        response = client.get("/api/health")
+        assert response.status_code == status.HTTP_200_OK
+        data = response.json()
+        assert data["status"] == "healthy"
+        assert "app" in data
+        assert "version" in data
+
+    def test_no_duplicate_ready_route(self, client):
+        """Accidental /api/ready must not exist (only /api/health/ready)."""
+        response = client.get("/api/ready")
+        assert response.status_code == status.HTTP_404_NOT_FOUND
+        response2 = client.get("/api/health/health")
+        assert response2.status_code == status.HTTP_404_NOT_FOUND
+
     @pytest.mark.asyncio
     async def test_readiness_check_endpoint_exists(self, client):
         """Test that readiness check endpoint exists and has correct structure."""

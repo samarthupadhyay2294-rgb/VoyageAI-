@@ -269,7 +269,7 @@ The application uses a multi-agent architecture with specialized agents:
 - `POST /api/planner/regenerate/{trip_id}` - Regenerate trip plan
 
 ### Upload
-- `POST /api/upload/upload` - Upload files (requires Supabase Storage configuration)
+- `POST /api/upload` - Upload files (requires Supabase Storage configuration)
 
 ## 🚢 Deployment
 

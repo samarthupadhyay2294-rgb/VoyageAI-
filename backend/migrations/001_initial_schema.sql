@@ -58,26 +58,34 @@ ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE trips ENABLE ROW LEVEL SECURITY;
 ALTER TABLE trip_plans ENABLE ROW LEVEL SECURITY;
 
--- RLS Policies
-CREATE POLICY IF NOT EXISTS "Users can view own profile" ON profiles
+-- PostgreSQL does not support CREATE POLICY IF NOT EXISTS. Drop and recreate
+-- policies so this migration can be run again safely.
+DROP POLICY IF EXISTS "Users can view own profile" ON profiles;
+CREATE POLICY "Users can view own profile" ON profiles
     FOR SELECT USING (auth.uid() = id);
 
-CREATE POLICY IF NOT EXISTS "Users can update own profile" ON profiles
+DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
+CREATE POLICY "Users can update own profile" ON profiles
     FOR UPDATE USING (auth.uid() = id);
 
-CREATE POLICY IF NOT EXISTS "Users can view own trips" ON trips
+DROP POLICY IF EXISTS "Users can view own trips" ON trips;
+CREATE POLICY "Users can view own trips" ON trips
     FOR SELECT USING (auth.uid() = user_id);
 
-CREATE POLICY IF NOT EXISTS "Users can insert own trips" ON trips
+DROP POLICY IF EXISTS "Users can insert own trips" ON trips;
+CREATE POLICY "Users can insert own trips" ON trips
     FOR INSERT WITH CHECK (auth.uid() = user_id);
 
-CREATE POLICY IF NOT EXISTS "Users can update own trips" ON trips
+DROP POLICY IF EXISTS "Users can update own trips" ON trips;
+CREATE POLICY "Users can update own trips" ON trips
     FOR UPDATE USING (auth.uid() = user_id);
 
-CREATE POLICY IF NOT EXISTS "Users can delete own trips" ON trips
+DROP POLICY IF EXISTS "Users can delete own trips" ON trips;
+CREATE POLICY "Users can delete own trips" ON trips
     FOR DELETE USING (auth.uid() = user_id);
 
-CREATE POLICY IF NOT EXISTS "Users can view trip plans for own trips" ON trip_plans
+DROP POLICY IF EXISTS "Users can view trip plans for own trips" ON trip_plans;
+CREATE POLICY "Users can view trip plans for own trips" ON trip_plans
     FOR SELECT USING (
         EXISTS (
             SELECT 1 FROM trips
@@ -86,7 +94,8 @@ CREATE POLICY IF NOT EXISTS "Users can view trip plans for own trips" ON trip_pl
         )
     );
 
-CREATE POLICY IF NOT EXISTS "Users can insert trip plans for own trips" ON trip_plans
+DROP POLICY IF EXISTS "Users can insert trip plans for own trips" ON trip_plans;
+CREATE POLICY "Users can insert trip plans for own trips" ON trip_plans
     FOR INSERT WITH CHECK (
         EXISTS (
             SELECT 1 FROM trips
@@ -95,7 +104,8 @@ CREATE POLICY IF NOT EXISTS "Users can insert trip plans for own trips" ON trip_
         )
     );
 
-CREATE POLICY IF NOT EXISTS "Users can update trip plans for own trips" ON trip_plans
+DROP POLICY IF EXISTS "Users can update trip plans for own trips" ON trip_plans;
+CREATE POLICY "Users can update trip plans for own trips" ON trip_plans
     FOR UPDATE USING (
         EXISTS (
             SELECT 1 FROM trips
@@ -104,7 +114,8 @@ CREATE POLICY IF NOT EXISTS "Users can update trip plans for own trips" ON trip_
         )
     );
 
-CREATE POLICY IF NOT EXISTS "Users can delete trip plans for own trips" ON trip_plans
+DROP POLICY IF EXISTS "Users can delete trip plans for own trips" ON trip_plans;
+CREATE POLICY "Users can delete trip plans for own trips" ON trip_plans
     FOR DELETE USING (
         EXISTS (
             SELECT 1 FROM trips

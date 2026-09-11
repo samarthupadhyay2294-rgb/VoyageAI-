@@ -21,7 +21,7 @@ location_agent = LocationAgent()
 
 
 @router.get("/geocode", response_model=APIResponse[LocationGeocodeResponse])
-async def geocode_location_get(query: str = Query(..., example="Paris, France")):
+async def geocode_location_get(query: str = Query(..., json_schema_extra={"example": "Paris, France"})):
     """Convert place name into latitude & longitude coordinates (Geocoding)."""
     try:
         res = await location_agent.validate_and_geocode(query)

@@ -87,20 +87,27 @@ CREATE TABLE IF NOT EXISTS trips (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Create trip_plans table
+-- Apply migration file directly for exact schema:
+--   psql $DATABASE_URL -f backend/migrations/001_initial_schema.sql
+-- Or paste the file in Supabase SQL Editor. It includes location_intelligence, gallery, hero_image, ai_summary and UNIQUE(trip_id).
+-- Equivalent inline definition:
 CREATE TABLE IF NOT EXISTS trip_plans (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  trip_id UUID REFERENCES trips(id) ON DELETE CASCADE,
-  itinerary JSONB,
-  weather_data JSONB,
-  flight_options JSONB,
-  hotel_options JSONB,
+  trip_id UUID REFERENCES trips(id) ON DELETE CASCADE UNIQUE,
+  location_intelligence JSONB,
+  weather JSONB,
+  flights JSONB,
+  hotels JSONB,
   places JSONB,
   restaurants JSONB,
   budget_breakdown JSONB,
-  images JSONB,
+  hero_image TEXT,
+  gallery JSONB,
+  itinerary JSONB,
+  ai_summary TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  CONSTRAINT unique_trip_plan UNIQUE (trip_id)
 );
 
 -- Enable RLS

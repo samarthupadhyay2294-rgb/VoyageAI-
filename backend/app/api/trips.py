@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi import APIRouter, Depends, HTTPException, status, Query, Request
 from typing import Optional
 from uuid import UUID
 from app.dependencies import get_current_user
@@ -6,12 +6,15 @@ from app.schemas.trip import TripCreate, TripUpdate, TripResponse, TripListRespo
 from app.database.repository import TripRepository
 from app.schemas.response import SuccessResponse, MessageResponse
 from app.logging import logger
+from app.core.limiter import limiter
 
 router = APIRouter()
 
 
 @router.get("", response_model=TripListResponse)
+@limiter.limit("30/minute")
 async def get_trips(
+    request: Request,
     page: int = Query(1, ge=1),
     page_size: int = Query(10, ge=1, le=100),
     current_user_id: str = Depends(get_current_user),
@@ -40,7 +43,9 @@ async def get_trips(
 
 
 @router.post("", response_model=SuccessResponse[TripResponse], status_code=status.HTTP_201_CREATED)
+@limiter.limit("20/minute")
 async def create_trip(
+    request: Request,
     trip_data: TripCreate,
     current_user_id: str = Depends(get_current_user),
 ):

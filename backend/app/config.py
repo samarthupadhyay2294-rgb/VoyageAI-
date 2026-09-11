@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     JWT_EXPIRATION_MINUTES: int = 60 * 24 * 7  # 7 days
 
     # Redis
-    REDIS_URL: str = "redis://redis:6379/0"
+    REDIS_URL: str = os.getenv("REDIS_URL", "redis://redis:6379/0")
     CACHE_TTL_SECONDS: int = 3600  # 1 hour
 
     # CORS
@@ -72,10 +72,11 @@ class Settings(BaseSettings):
     # PDF
     PDF_OUTPUT_DIR: str = "/tmp/pdfs"
 
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
-        extra = "allow"
+    model_config = {
+        "env_file": ".env",
+        "case_sensitive": True,
+        "extra": "allow",
+    }
 
 
 settings = Settings()

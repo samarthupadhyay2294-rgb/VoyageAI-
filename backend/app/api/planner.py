@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks, Request
 from uuid import UUID
 from app.dependencies import get_current_user
 from app.schemas.planner import PlannerRequest, PlannerResponse
@@ -6,12 +6,15 @@ from app.database.repository import TripRepository
 from app.agents.orchestrator import TripOrchestrator
 from app.schemas.response import SuccessResponse, MessageResponse
 from app.logging import logger
+from app.core.limiter import limiter
 
 router = APIRouter()
 
 
 @router.post("/generate", response_model=SuccessResponse[PlannerResponse])
+@limiter.limit("5/minute")
 async def generate_trip_plan(
+    request: Request,
     planner_request: PlannerRequest,
     background_tasks: BackgroundTasks,
     current_user_id: str = Depends(get_current_user),
@@ -60,7 +63,9 @@ async def generate_trip_plan(
 
 
 @router.post("/regenerate/{trip_id}", response_model=SuccessResponse[PlannerResponse])
+@limiter.limit("5/minute")
 async def regenerate_trip_plan(
+    request: Request,
     trip_id: UUID,
     current_user_id: str = Depends(get_current_user),
 ):

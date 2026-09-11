@@ -3,12 +3,12 @@ from typing import List, Dict, Any, Optional
 
 
 class LocationGeocodeRequest(BaseModel):
-    query: str = Field(..., example="Paris, France")
+    query: str = Field(..., json_schema_extra={"example": "Paris, France"})
 
 
 class LocationReverseGeocodeRequest(BaseModel):
-    latitude: float = Field(..., example=48.8566)
-    longitude: float = Field(..., example=2.3522)
+    latitude: float = Field(..., json_schema_extra={"example": 48.8566})
+    longitude: float = Field(..., json_schema_extra={"example": 2.3522})
 
 
 class LocationGeocodeResponse(BaseModel):
@@ -24,9 +24,9 @@ class LocationGeocodeResponse(BaseModel):
 
 
 class DistanceMatrixRequest(BaseModel):
-    origin: str = Field(..., example="New York (JFK)")
-    destination: str = Field(..., example="Paris, France")
-    mode: str = Field("driving-car", example="driving-car")  # driving-car, cycling-regular, foot-walking
+    origin: str = Field(..., json_schema_extra={"example": "New York (JFK)"})
+    destination: str = Field(..., json_schema_extra={"example": "Paris, France"})
+    mode: str = Field("driving-car", json_schema_extra={"example": "driving-car"})  # driving-car, cycling-regular, foot-walking
 
 
 class DistanceMatrixResponse(BaseModel):
@@ -42,10 +42,10 @@ class DistanceMatrixResponse(BaseModel):
 
 
 class RouteOptimizeRequest(BaseModel):
-    start_location: str = Field(..., example="Tokyo Station")
-    stops: List[str] = Field(..., example=["Senso-ji Temple", "Shibuya Crossing", "Meiji Shrine"])
-    end_location: Optional[str] = Field(None, example="Shinjuku Station")
-    mode: str = Field("driving-car", example="driving-car")
+    start_location: str = Field(..., json_schema_extra={"example": "Tokyo Station"})
+    stops: List[str] = Field(..., json_schema_extra={"example": ["Senso-ji Temple", "Shibuya Crossing", "Meiji Shrine"]})
+    end_location: Optional[str] = Field(None, json_schema_extra={"example": "Shinjuku Station"})
+    mode: str = Field("driving-car", json_schema_extra={"example": "driving-car"})
 
 
 class RouteLeg(BaseModel):
@@ -76,8 +76,8 @@ class TransportHub(BaseModel):
 
 
 class TransportHubsRequest(BaseModel):
-    location: str = Field(..., example="Paris, France")
-    radius_km: float = Field(50.0, example=50.0)
+    location: str = Field(..., json_schema_extra={"example": "Paris, France"})
+    radius_km: float = Field(50.0, json_schema_extra={"example": 50.0})
 
 
 class TransportHubsResponse(BaseModel):
@@ -92,9 +92,9 @@ class TransportHubsResponse(BaseModel):
 
 
 class LocationIntelligenceRequest(BaseModel):
-    destination: str = Field(..., example="Tokyo, Japan")
-    origin: Optional[str] = Field(None, example="San Francisco, USA")
-    interests: Optional[List[str]] = Field(default_factory=list, example=["temples", "foodie"])
+    destination: str = Field(..., json_schema_extra={"example": "Tokyo, Japan"})
+    origin: Optional[str] = Field(None, json_schema_extra={"example": "San Francisco, USA"})
+    interests: Optional[List[str]] = Field(default_factory=list, json_schema_extra={"example": ["temples", "foodie"]})
 
 
 class AgentLocationInsights(BaseModel):

@@ -771,11 +771,11 @@ class GuestStore {
   duplicateTrip(id: string): Trip | undefined {
     const trip = this.getTrip(id)
     if (!trip) return undefined
-    const duplicatedData = {
+    const duplicatedData: Partial<Trip> = {
       ...trip,
       destination: `${trip.destination} (Copy)`,
     }
-    delete (duplicatedData as any).id
+    delete (duplicatedData as { id?: string }).id
     return this.createTrip(duplicatedData)
   }
 

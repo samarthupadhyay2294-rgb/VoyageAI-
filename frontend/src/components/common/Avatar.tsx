@@ -67,7 +67,8 @@ export default function Avatar({
             className="h-full w-full object-cover rounded-full"
             onError={(e) => {
               // Fallback to initial text on error
-              ;(e.target as HTMLElement).style.display = 'none'
+              const target = e.target as HTMLElement
+              target.style.display = 'none'
             }}
           />
         ) : (

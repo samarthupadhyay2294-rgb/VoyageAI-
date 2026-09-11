@@ -20,16 +20,18 @@ class TestUploadValidation:
         files = {"file": ("test.jpg", BytesIO(file_content), "image/jpeg")}
 
         # The endpoint requires authentication, so we expect 401 without auth
-        response = client.post("/api/upload/upload", files=files)
+        response = client.post("/api/upload", files=files)
         # Without auth, should get 401
         assert response.status_code in [status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN]
+        # Old double-prefix must not exist
+        assert client.post("/api/upload/upload", files=files).status_code == status.HTTP_404_NOT_FOUND
 
     def test_upload_with_invalid_file_extension(self, client):
         """Test upload with invalid file extension."""
         file_content = b"test executable content"
         files = {"file": ("test.exe", BytesIO(file_content), "application/x-msdownload")}
 
-        response = client.post("/api/upload/upload", files=files)
+        response = client.post("/api/upload", files=files)
         # Without auth, should get 401
         assert response.status_code in [status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN]
 
@@ -39,6 +41,6 @@ class TestUploadValidation:
         large_content = b"x" * (11 * 1024 * 1024)
         files = {"file": ("large.jpg", BytesIO(large_content), "image/jpeg")}
 
-        response = client.post("/api/upload/upload", files=files)
+        response = client.post("/api/upload", files=files)
         # Without auth, should get 401 (file size check happens after auth)
         assert response.status_code in [status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN]

@@ -12,8 +12,7 @@ class UserResponse(BaseModel):
     preferred_currency: str = "USD"
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class LoginRequest(BaseModel):

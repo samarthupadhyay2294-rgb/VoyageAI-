@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
 from app.config import settings
 from app.logging import logger
 
@@ -21,10 +20,13 @@ async def init_db():
     """Initialize database connection."""
     try:
         from app.core.cache import init_redis
+        from app.config import settings
         await init_redis()
         logger.info("Database and cache initialized")
     except Exception as e:
         logger.error(f"Database initialization failed: {str(e)}")
+        if settings.ENVIRONMENT == "production":
+            raise
 
 
 async def close_db():
